@@ -1,0 +1,68 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model Employee
+<h1>Edit Employee </h1>
+
+<form action="/Employee/EditDB">
+     
+    <input id="SSN" name="SSN" type="text" value="@Model.SSN" hidden />
+
+    <label>First Name</label>
+    <input id="Fname" name="Fname" type="text" value="@Model.Fname" />
+
+    <label>Last Name</label>
+    <input id="Lname" name="Lname" type="text" value="@Model.Lname" />
+
+    <label>Minit</label>
+    <input id="Minit" name="Minit" type="text" value="@Model.Minit" />
+
+    <label>Sex</label>
+    @{
+        if (Model.Sex == "Male")
+        {
+            <label>Male</label>
+            <input id="Male" name="Sex" type="radio" value="Male" checked />
+            <label>Female</label>
+            <input id="Female" name="Sex" type="radio" value="Female" />
+        }
+        else
+        {
+            <label>Male</label>
+            <input id="Male" name="Sex" type="radio" value="Male"  />
+            <label>Female</label>
+            <input id="Female" name="Sex" type="radio" value="Female" checked />
+        }
+    }
+
+    <label>Address</label>
+    <input id="Address" name="Address" type="text" value="@Model.Address" />
+
+    <label>Salary</label>
+    <input id="Salary" name="Salary" type="number" value="@Model.Salary" />
+
+    <label>Birth Date</label>
+    <input id="BirthDate" name="BirthDate" type="datetime" value="@Model.BirthDate" />
+
+    <label>Supervisor</label>
+    <select id="SupervisorSSN" name="SupervisorSSN">
+        <option value="">Choose instructor</option>
+        @foreach (var emp in ViewBag.emp)
+        {
+            @if(emp.SSN == Model.SSN)
+            {
+                <option value="@emp.SSN" selected>@(emp.Fname + " " + emp.Lname)</option>
+            }
+            else
+            {
+                <option value="@emp.SSN" >@(emp.Fname + " " + emp.Lname)</option>
+            }
+
+
+        }
+    </select>
+
+    <input type="submit" value="Update" />
+</form>
