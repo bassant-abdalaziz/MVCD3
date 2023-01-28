@@ -8,6 +8,7 @@ namespace MVCD3.Models
     {
         [Key]
         public int Number { get; set; }
+        [Display(Name="Department name")]
         public string? Name { get; set; }
         public virtual List<DepartmentLocation>? DepartmentLocations { get; set; }
         public virtual List<Project>? Projects { get; set; }

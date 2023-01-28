@@ -80,6 +80,15 @@ namespace MVCD3.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        public IActionResult AllEmployeeManger()
+        {
+
+            List<Employee>? employees = DB.Departments.Include(e => e.employeeManege).Where(e => e.mngrSSN != null).Select(e => e.employeeManege).ToList();
+
+            return View(employees);
+
+        }
+
         public IActionResult Login()
         {
             return View();

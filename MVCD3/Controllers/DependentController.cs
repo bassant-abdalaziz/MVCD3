@@ -60,7 +60,7 @@ namespace MVCD3.Controllers
             olDdependent.Sex = dependentToEdit.Sex;
             olDdependent.Relationship = dependentToEdit.Relationship;
             olDdependent.BirthDate = dependentToEdit.BirthDate;
-            //TempData["EditMsg"] = "You Edit Dependent";
+            
 
             DB.SaveChanges();
             return RedirectToAction(nameof(GetAllDependent));
