@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MVCD3.Models;
 
@@ -51,5 +52,44 @@ namespace MVCD3.Controllers
 
             return View(worksOnProject);
         }
+
+
+        public IActionResult EditEmpHours()
+        {
+            List<Employee> employees = DB.Employees.ToList();
+            ViewBag.employees = new SelectList(employees, "SSN", "Fname");
+            return View();
+        }
+
+        public IActionResult EditEmpHoursDb(WorksOnProject worksOnProject)
+        {
+            DB.WorksOnProjects.Update(worksOnProject);
+            DB.SaveChanges();
+            return View();
+        }
+
+        public IActionResult EmpHour(int id)
+        {
+            List<Project>? projects = DB.WorksOnProjects.Include(w => w.Project).Where(w => w.EmpSSN == id).Select(w => w.Project).ToList();
+            ViewBag.projects = new SelectList(projects, "Number", "Name");
+            if (projects.Count > 0)
+            {
+                WorksOnProject worksOnProject = new WorksOnProject()
+                {
+                    Hours = DB.WorksOnProjects.SingleOrDefault(w => (w.EmpSSN == id) && (w.projNum == projects[0].Number)).Hours
+                };
+                return PartialView("_ProjectsList", worksOnProject);
+            }
+            return PartialView("_ProjectsList");
+        }
+
+        public IActionResult EmpProject(int id, int projNum)
+        {
+            WorksOnProject? worksOnProject = DB.WorksOnProjects.SingleOrDefault(wop => wop.EmpSSN == id && wop.projNum == projNum);
+            return PartialView("_hour", worksOnProject);
+        }
+
+ 
+
     }
 }
